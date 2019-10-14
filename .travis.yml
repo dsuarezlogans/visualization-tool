@@ -6,6 +6,8 @@ cache:
     - node_modules
 env:
   - BUILD_ENV=production
+  global:
+    - FIREBASE_DEPLOY_TOKEN=${FIREBASE_DEPLOY_TOKEN}
 script:
   - npm run lint
   - npm run test
