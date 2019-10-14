@@ -14,4 +14,4 @@ deploy:
   provider: firebase
   token:
     secure: "${FIREBASE_DEPLOY_TOKEN}"
-  project: "belaxito-bot-app"
+  project: "visualization-tool"
