@@ -12,8 +12,3 @@ script:
   - npm run lint
   - npm run test
   - npm run build
-deploy:
-  provider: firebase
-  token:
-    secure: "${FIREBASE_DEPLOY_TOKEN}"
-  project: "visualization-tool"
