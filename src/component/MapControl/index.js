@@ -1,20 +1,37 @@
 import './index.css';
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
+import dataReducer, { initialState, chartDataType } from '../DataReducer';
 import RadioGroup from '../RadioGroup';
 import CsvDropzone from '../CsvDropzone';
 
-const DEFAULT_LEVEL = 'total';
-const DEFAULT_ROL = 'initiating country';
+const { TOTAL_LEVEL, CONNECTIONS_LEVEL, INITIATING_ROL, RECEIVING_ROL } = chartDataType;
 
 function MapControl({ handleFile }) {
-  const [level, setLevel] = useState(DEFAULT_LEVEL);
-  const [role, setRol] = useState(DEFAULT_ROL);
+  const [level, setLevel] = useState(TOTAL_LEVEL);
+  const [role, setRol] = useState(INITIATING_ROL);
   const [reference, setReference] = useState('');
+  const [, setDataChart] = useReducer(dataReducer, initialState);
 
-  const handleLevel = e => setLevel(e.target.value);
-  const handleRol = e => setRol(e.target.value);
+  const handleRadioButton = e => {
+    if (e.target.value === INITIATING_ROL) {
+      setRol(e.target.value);
+      setDataChart({ type: INITIATING_ROL });
+    }
+    if (e.target.value === RECEIVING_ROL) {
+      setRol(e.target.value);
+      setDataChart({ type: RECEIVING_ROL });
+    }
+    if (e.target.value === CONNECTIONS_LEVEL) {
+      setLevel(e.target.value);
+      setDataChart({ type: CONNECTIONS_LEVEL });
+    }
+    if (e.target.value === TOTAL_LEVEL) {
+      setLevel(e.target.value);
+      setDataChart({ type: TOTAL_LEVEL });
+    }
+  };
 
   return (
     <div className='map-control'>
@@ -25,16 +42,16 @@ function MapControl({ handleFile }) {
       <form className='map-control-item'>
         <RadioGroup
           label='Aggregation level'
-          valueA='total'
-          valueB='connections'
-          handleChange={handleLevel}
+          valueA={TOTAL_LEVEL}
+          valueB={CONNECTIONS_LEVEL}
+          handleChange={handleRadioButton}
           selected={level}
         />
         <RadioGroup
           label='Country role'
-          valueA='initiating country'
-          valueB='receiving country'
-          handleChange={handleRol}
+          valueA={INITIATING_ROL}
+          valueB={RECEIVING_ROL}
+          handleChange={handleRadioButton}
           selected={role}
         />
         <div className='input'>

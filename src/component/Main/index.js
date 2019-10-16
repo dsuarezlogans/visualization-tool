@@ -4,10 +4,10 @@ import Papa from 'papaparse';
 
 import MapControl from '../MapControl';
 import Worldmap from '../Worldmap';
-import { dataReducer, initialState } from '../DataReducer';
+import dataReducer, { initialState, chartDataType } from '../DataReducer';
 
 function Main() {
-  const [{ data }, dispatch] = useReducer(dataReducer, initialState);
+  const [{ data }, setDataChart] = useReducer(dataReducer, initialState);
 
   const handleFile = ([fileInput]) => {
     Papa.parse(fileInput, {
@@ -15,9 +15,9 @@ function Main() {
       dynamicTyping: true,
       skipEmptyLines: true,
       complete: results => {
-        dispatch({
-          type: 'TOTAL_CLIENT_COUNTRY',
-          data: results.data,
+        setDataChart({
+          type: chartDataType.TOTAL_LEVEL,
+          data: results,
         });
       },
     });

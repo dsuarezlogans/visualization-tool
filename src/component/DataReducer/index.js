@@ -1,18 +1,28 @@
 import getTotalByClientCountry from './formatData';
 
-const initialState = {
+export const initialState = {
   data: [],
+};
+
+export const chartDataType = {
+  TOTAL_LEVEL: 'total',
+  CONNECTIONS_LEVEL: 'connections',
+  INITIATING_ROL: 'initiating country',
+  RECEIVING_ROL: 'recieving country',
+  SET_DATA: 'SET_DATA',
 };
 
 const dataReducer = (state, action) => {
   switch (action.type) {
-    case 'TOTAL_CLIENT_COUNTRY':
-      return { ...state, data: getTotalByClientCountry(action) };
-    case 'TOTAL_CLIENT_COUNTRY1':
+    case chartDataType.TOTAL_LEVEL:
+      return { ...state, data: getTotalByClientCountry(action.data) };
+    case chartDataType.INITIATING_ROL:
+      return { ...state, data: [] };
+    case chartDataType.SET_DATA:
       return { ...state, data: action.data };
     default:
-      throw state;
+      return state;
   }
 };
 
-export { dataReducer, initialState };
+export default dataReducer;
