@@ -1,0 +1,36 @@
+.map-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.map-control-item {
+    flex: 1 50%;
+}
+
+.map-control form {
+    width: 100%;
+}
+
+.reload-btn {
+    height: 30px;
+    width: 100px;
+    background-color: gray;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #000;
+}
+
+.title {
+    text-align: center;
+    align-content: center;
+}
+
+.input {
+    margin: 10px;
+}
+
+.input label input {
+    margin-left: 30px;
+}
