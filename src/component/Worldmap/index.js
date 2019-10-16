@@ -1,17 +1,17 @@
 import './index.css';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
+import PropTypes from 'prop-types';
 
-function Worldmap({ data }) {
+function Worldmap({ chartData }) {
   return (
     <Chart
       width='100%'
       height='100%'
       chartType='GeoChart'
-      data={[['Country', 'Projects'], ...data]}
+      data={[['Country', 'Connections'], ...chartData]}
       options={{
-        colors: ['#FFF', 'rgb(11, 15, 68)'],
+        colors: ['#9595aa', '#01366a'],
       }}
       mapsApiKey='YOUR_KEY_HERE'
       rootProps={{ 'data-testid': '1' }}
@@ -20,7 +20,7 @@ function Worldmap({ data }) {
 }
 
 Worldmap.propTypes = {
-  data: PropTypes.array.isRequired,
+  chartData: PropTypes.any.isRequired,
 };
 
 export default Worldmap;

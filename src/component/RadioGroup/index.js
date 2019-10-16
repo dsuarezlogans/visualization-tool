@@ -2,7 +2,7 @@ import './index.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function RadioGroup({ label, handleChange, selected, valueA, valueB }) {
+function RadioGroup({ label, handleChange, selected, valueA, valueB, name }) {
   return (
     <div className='radio-group'>
       <span>{label}:</span>
@@ -10,6 +10,7 @@ function RadioGroup({ label, handleChange, selected, valueA, valueB }) {
         <label htmlFor={valueA}>
           <input
             type='radio'
+            name={name}
             id={valueA}
             value={valueA}
             checked={selected === valueA}
@@ -22,6 +23,7 @@ function RadioGroup({ label, handleChange, selected, valueA, valueB }) {
         <label htmlFor={valueB}>
           <input
             type='radio'
+            name={name}
             id={valueB}
             value={valueB}
             checked={selected === valueB}
@@ -44,6 +46,7 @@ RadioGroup.propTypes = {
   label: PropTypes.string,
   valueA: PropTypes.string,
   valueB: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 export default RadioGroup;

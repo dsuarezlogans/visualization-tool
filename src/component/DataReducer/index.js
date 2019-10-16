@@ -1,4 +1,5 @@
-import getTotalByClientCountry from './formatData';
+import { useState } from 'react';
+import { getTotalByinitiatingCountry, getTotalByReceivingCountry } from './formatData';
 
 export const initialState = {
   data: [],
@@ -13,16 +14,33 @@ export const chartDataType = {
 };
 
 const dataReducer = (state, action) => {
-  switch (action.type) {
-    case chartDataType.TOTAL_LEVEL:
-      return { ...state, data: getTotalByClientCountry(action.data) };
-    case chartDataType.INITIATING_ROL:
-      return { ...state, data: [] };
-    case chartDataType.SET_DATA:
-      return { ...state, data: action.data };
+  switch (true) {
+    case action.level === chartDataType.TOTAL_LEVEL && action.rol === chartDataType.INITIATING_ROL:
+      return getTotalByinitiatingCountry(state);
+    case action.level === chartDataType.TOTAL_LEVEL && action.rol === chartDataType.RECEIVING_ROL:
+      return getTotalByReceivingCountry(state);
+    case action.level === chartDataType.CONNECTIONS_LEVEL &&
+      action.rol === chartDataType.INITIATING_ROL:
+      return [];
+    case action.level === chartDataType.CONNECTIONS_LEVEL &&
+      action.rol === chartDataType.RECEIVING_ROL:
+      return [];
     default:
-      return state;
+      return getTotalByinitiatingCountry(state);
   }
 };
 
-export default dataReducer;
+function useDataProcessor() {
+  const [csvData, setCsvData] = useState(initialState);
+  const [chartData, setChartData] = useState([]);
+
+  const setWorldMapData = inputsValue => {
+    const nextState = dataReducer(csvData, inputsValue);
+    console.log('nextState', nextState);
+    setChartData(nextState);
+  };
+
+  return { setCsvData, chartData, setWorldMapData };
+}
+
+export default useDataProcessor;

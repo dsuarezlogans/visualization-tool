@@ -1,13 +1,13 @@
 import './index.css';
-import React, { useReducer } from 'react';
+import React from 'react';
 import Papa from 'papaparse';
 
 import MapControl from '../MapControl';
 import Worldmap from '../Worldmap';
-import dataReducer, { initialState, chartDataType } from '../DataReducer';
+import useDataProcessor from '../DataReducer';
 
 function Main() {
-  const [{ data }, setDataChart] = useReducer(dataReducer, initialState);
+  const { chartData, setCsvData, setWorldMapData } = useDataProcessor();
 
   const handleFile = ([fileInput]) => {
     Papa.parse(fileInput, {
@@ -15,21 +15,23 @@ function Main() {
       dynamicTyping: true,
       skipEmptyLines: true,
       complete: results => {
-        setDataChart({
-          type: chartDataType.TOTAL_LEVEL,
-          data: results,
-        });
+        setCsvData(results);
       },
     });
+  };
+
+  const onReloadSubmit = inputsValue => e => {
+    e.preventDefault();
+    setWorldMapData(inputsValue);
   };
 
   return (
     <div className='main'>
       <div className='main-item'>
-        <MapControl handleFile={handleFile} />
+        <MapControl handleFile={handleFile} onReloadSubmit={onReloadSubmit} />
       </div>
       <div className='main-item'>
-        <Worldmap data={data} />
+        <Worldmap chartData={chartData} />
       </div>
     </div>
   );

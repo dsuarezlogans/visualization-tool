@@ -17,9 +17,9 @@
     height: 30px;
     width: 100px;
     background-color: gray;
-    border: 1px solid #000;
+    border: 1px solid rgba(1, 54, 106, 1);
     border-radius: 5px;
-    color: #000;
+    color: rgba(1, 54, 106, 1);
 }
 
 .title {

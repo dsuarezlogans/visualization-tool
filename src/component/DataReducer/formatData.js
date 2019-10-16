@@ -1,17 +1,29 @@
-import _ from 'lodash';
+import uniqBy from 'lodash/uniqBy';
 
 const CLIENT_COUNTRY = 'Client Country';
-const PROJECTS_IN_COUNTRY = 'Sum number of projects in client country';
+const PROVIDER_COUNTRY = 'Provider Country';
+// const NUMBER_COLABORATIONS = 'Sum number of projects in client country';
+const SUM_CLIENT_COUNTRY = 'Sum number of projects in client country';
+const SUM_PROVIDER_COUNTRY = 'Sum number of projects in provider country';
 
-function getTotalByClientCountry({ data }) {
-  const preData = data
+const cleanData = (data, key, value) =>
+  data
     .map(item => ({
-      key: item[CLIENT_COUNTRY],
-      value: item[PROJECTS_IN_COUNTRY],
+      key: item[key],
+      value: item[value],
     }))
     .filter(item => item.key !== null && item.value !== null);
 
-  return _.uniqBy(preData, item => item.key).map(country => [country.key, country.value]);
-}
+const getChartData = parsedData =>
+  uniqBy(parsedData, item => item.key).map(country => [country.key, country.value]);
 
-export default getTotalByClientCountry;
+const getTotalByinitiatingCountry = ({ data }) => {
+  const parsedData = cleanData(data, CLIENT_COUNTRY, SUM_CLIENT_COUNTRY);
+  return getChartData(parsedData);
+};
+const getTotalByReceivingCountry = ({ data }) => {
+  const parsedData = cleanData(data, PROVIDER_COUNTRY, SUM_PROVIDER_COUNTRY);
+  return getChartData(parsedData);
+};
+
+export { getTotalByinitiatingCountry, getTotalByReceivingCountry };

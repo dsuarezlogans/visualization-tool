@@ -1,7 +1,7 @@
 .csv-dropzone{
     height: 100px;
     width: 100%;
-    border: 3px dashed rgb(11, 15, 68);
+    border: 3px dashed rgba(1, 54, 106, 1);
     border-radius: 6px;
     font-size: 12px;
     padding: 1em;
