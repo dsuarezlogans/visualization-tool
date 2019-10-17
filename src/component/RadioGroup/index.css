@@ -2,7 +2,6 @@
     display: flex;
     flex-wrap: wrap;
     margin: 0.5em;
-    width: 100%;
 }
 .radio-input, span {
   flex-grow: 1;

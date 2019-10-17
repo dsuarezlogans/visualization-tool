@@ -3,4 +3,14 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+}
+
+.main-item {
+    flex: 1 1 100%;
+    width: 100%;
+}
+
+.worldmap div {
+    margin: 0 auto;
 }

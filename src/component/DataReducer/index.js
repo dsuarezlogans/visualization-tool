@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { getTotalByinitiatingCountry, getTotalByReceivingCountry } from './formatData';
+import {
+  getTotalByinitiatingCountry,
+  getTotalByReceivingCountry,
+  getConnectionsByinitiatingCountry,
+  getCountries,
+} from './formatData';
 
 export const initialState = {
   data: [],
@@ -10,7 +15,6 @@ export const chartDataType = {
   CONNECTIONS_LEVEL: 'connections',
   INITIATING_ROL: 'initiating country',
   RECEIVING_ROL: 'recieving country',
-  SET_DATA: 'SET_DATA',
 };
 
 const dataReducer = (state, action) => {
@@ -21,7 +25,7 @@ const dataReducer = (state, action) => {
       return getTotalByReceivingCountry(state);
     case action.level === chartDataType.CONNECTIONS_LEVEL &&
       action.rol === chartDataType.INITIATING_ROL:
-      return [];
+      return getConnectionsByinitiatingCountry(state, action.reference);
     case action.level === chartDataType.CONNECTIONS_LEVEL &&
       action.rol === chartDataType.RECEIVING_ROL:
       return [];
@@ -35,12 +39,11 @@ function useDataProcessor() {
   const [chartData, setChartData] = useState([]);
 
   const setWorldMapData = inputsValue => {
-    const nextState = dataReducer(csvData, inputsValue);
-    console.log('nextState', nextState);
-    setChartData(nextState);
+    const data = dataReducer(csvData, inputsValue);
+    setChartData(data);
   };
 
-  return { setCsvData, chartData, setWorldMapData };
+  return { setCsvData, getCountries, chartData, setWorldMapData };
 }
 
 export default useDataProcessor;

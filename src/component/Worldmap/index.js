@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 function Worldmap({ chartData }) {
   return (
     <Chart
-      width='100%'
-      height='100%'
+      width='90%'
       chartType='GeoChart'
       data={[['Country', 'Connections'], ...chartData]}
       options={{

@@ -1,6 +1,7 @@
 import './index.css';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 
 import { chartDataType } from '../DataReducer';
 import RadioGroup from '../RadioGroup';
@@ -14,13 +15,20 @@ const initialInputsValue = {
   reference: '',
 };
 
-function MapControl({ handleFile, onReloadSubmit }) {
+function MapControl({ handleFile, onReloadSubmit, countries }) {
   const [inputValues, setInputValue] = useState(initialInputsValue);
   const handleInputChange = e => {
-    setInputValue({
-      ...inputValues,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target) {
+      setInputValue({
+        ...inputValues,
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      setInputValue({
+        ...inputValues,
+        reference: e.value,
+      });
+    }
   };
 
   return (
@@ -46,17 +54,21 @@ function MapControl({ handleFile, onReloadSubmit }) {
           handleChange={handleInputChange}
           selected={inputValues.rol}
         />
-        <div className='input'>
-          <label htmlFor='reference'>
-            Reference country:
-            <input
+        <div className='select-container'>
+          <span>Reference country:</span>
+          <div className='select-reference-container'>
+            <Select
               type='input'
               id='reference'
               name='reference'
-              value={inputValues.reference}
+              isDisabled={inputValues.level !== CONNECTIONS_LEVEL}
+              options={countries}
               onChange={handleInputChange}
             />
-          </label>
+            {inputValues.level === CONNECTIONS_LEVEL && !inputValues.reference && (
+              <span className='reference-error'>Please select a country for reference!</span>
+            )}
+          </div>
         </div>
         <CsvDropzone handleFile={handleFile} />
       </form>
@@ -64,9 +76,13 @@ function MapControl({ handleFile, onReloadSubmit }) {
   );
 }
 
+MapControl.defaultProps = {
+  countries: [],
+};
 MapControl.propTypes = {
   handleFile: PropTypes.func.isRequired,
   onReloadSubmit: PropTypes.func.isRequired,
+  countries: PropTypes.any,
 };
 
 export default MapControl;
