@@ -8,9 +8,12 @@ function Worldmap({ chartData }) {
     <Chart
       width='90%'
       chartType='GeoChart'
-      data={[['Country', 'Connections'], ...chartData]}
+      data={[['Country', 'Connections', { role: 'style' }], ...chartData]}
       options={{
         colors: ['#9595aa', '#01366a'],
+        tooltip: {
+          trigger: 'selection',
+        },
       }}
       mapsApiKey='YOUR_KEY_HERE'
       rootProps={{ 'data-testid': '1' }}

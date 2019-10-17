@@ -9,7 +9,7 @@ import useDataProcessor from '../DataReducer';
 // TODO: handle error when a csv is not the right csv o.O
 
 function Main() {
-  const { chartData, setCsvData, setWorldMapData, getCountries } = useDataProcessor();
+  const { chartData, setCsvData, setWorldMapData, setCountries, refCountries } = useDataProcessor();
   const [fileMeta, setFileMeta] = useState(null);
   const handleFile = ([fileInput]) => {
     setFileMeta(fileInput);
@@ -19,6 +19,7 @@ function Main() {
       skipEmptyLines: true,
       complete: results => {
         setCsvData(results);
+        setCountries(results);
       },
     });
   };
@@ -41,7 +42,7 @@ function Main() {
         <MapControl
           handleFile={handleFile}
           onReloadSubmit={onReloadSubmit}
-          countries={getCountries()}
+          countries={refCountries}
         />
       </div>
       <div className='main-item worldmap'>

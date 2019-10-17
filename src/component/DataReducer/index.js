@@ -19,6 +19,8 @@ export const chartDataType = {
 
 const dataReducer = (state, action) => {
   switch (true) {
+    case action.countries === chartDataType.INITIATING_ROL:
+      return getCountries(state);
     case action.level === chartDataType.TOTAL_LEVEL && action.rol === chartDataType.INITIATING_ROL:
       return getTotalByinitiatingCountry(state);
     case action.level === chartDataType.TOTAL_LEVEL && action.rol === chartDataType.RECEIVING_ROL:
@@ -37,13 +39,19 @@ const dataReducer = (state, action) => {
 function useDataProcessor() {
   const [csvData, setCsvData] = useState(initialState);
   const [chartData, setChartData] = useState([]);
+  const [refCountries, setRefCountries] = useState([]);
 
   const setWorldMapData = inputsValue => {
     const data = dataReducer(csvData, inputsValue);
     setChartData(data);
   };
 
-  return { setCsvData, getCountries, chartData, setWorldMapData };
+  const setCountries = (data, inputsValue = { countries: chartDataType.INITIATING_ROL }) => {
+    const countries = dataReducer(data, inputsValue);
+    setRefCountries(countries);
+  };
+
+  return { setCsvData, setCountries, chartData, setWorldMapData, refCountries };
 }
 
 export default useDataProcessor;
