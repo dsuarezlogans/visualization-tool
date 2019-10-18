@@ -2,7 +2,8 @@ import { useState } from 'react';
 import {
   getTotalByinitiatingCountry,
   getTotalByReceivingCountry,
-  getConnectionsByinitiatingCountry,
+  getConnectionsByInitiatingCountry,
+  getConnectionsByReceivingCountry,
   getCountries,
 } from './formatData';
 
@@ -27,10 +28,10 @@ const dataReducer = (state, action) => {
       return getTotalByReceivingCountry(state);
     case action.level === chartDataType.CONNECTIONS_LEVEL &&
       action.rol === chartDataType.INITIATING_ROL:
-      return getConnectionsByinitiatingCountry(state, action.reference);
+      return getConnectionsByInitiatingCountry(state, action.reference);
     case action.level === chartDataType.CONNECTIONS_LEVEL &&
       action.rol === chartDataType.RECEIVING_ROL:
-      return [];
+      return getConnectionsByReceivingCountry(state, action.reference);
     default:
       return getTotalByinitiatingCountry(state);
   }

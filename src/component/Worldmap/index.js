@@ -14,8 +14,14 @@ const initialOptionsState = {
     show: false,
     trigger: 'item',
     triggerOn: 'click',
-    formatter: series => `${series.data.name} <br/>
-      ${series.seriesName}: ${series.data.value}
+    borderColor: '#01366a',
+    borderWidth: 1,
+    backgroundColor: 'rgba(245, 250, 250, 0.9)',
+    textStyle: {
+      color: '#01366a',
+    },
+    formatter: series => `<b>${series.data.name}</b> <br/>
+      ${series.seriesName}: ${series.data.value.toLocaleString()}
     `,
   },
   visualMap: {
@@ -28,7 +34,7 @@ const initialOptionsState = {
     },
     calculable: true,
     formatter: a => {
-      return `${Math.ceil(a)}`;
+      return `${Math.ceil(a).toLocaleString()}`;
     },
   },
   series: [
