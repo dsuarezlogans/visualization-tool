@@ -38,7 +38,7 @@ const dataReducer = (state, action) => {
 
 function useDataProcessor() {
   const [csvData, setCsvData] = useState(initialState);
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(initialState);
   const [refCountries, setRefCountries] = useState([]);
 
   const setWorldMapData = inputsValue => {

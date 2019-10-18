@@ -14,26 +14,28 @@ const initialOptionsState = {
     show: false,
     trigger: 'item',
     triggerOn: 'click',
+    formatter: series => `${series.data.name} <br/>
+      ${series.seriesName}: ${series.data.value}
+    `,
   },
   visualMap: {
     type: 'piecewise',
-    left: 'left',
     orient: 'horizontal',
-    align: 'right',
+    splitNumber: 6,
     hoverLink: false,
-    min: 0,
-    max: 1,
     inRange: {
       color: ['#9595aa', '#01366a'],
     },
     calculable: true,
+    formatter: a => {
+      return `${Math.ceil(a)}`;
+    },
   },
   series: [
     {
       name: 'Connections',
       type: 'map',
       mapType: 'world',
-      zoom: '1.2',
       label: {
         emphasis: {
           show: false,
@@ -55,16 +57,17 @@ function Worldmap({ chartData }) {
     series: [
       {
         ...initialOptionsState.series[0],
-        data: chartData,
+        data: chartData.data,
       },
     ],
     visualMap: {
+      show: Boolean(chartData.min),
       ...initialOptionsState.visualMap,
-      min: 0,
-      max: 100000,
+      min: chartData.min,
+      max: chartData.max,
     },
   };
-  console.log(options);
+
   return (
     <ReactEchartsCore
       echarts={echarts}
