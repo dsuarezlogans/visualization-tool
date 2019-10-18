@@ -17,9 +17,15 @@ export const getCountries = ({ data }, key = CLIENT_COUNTRY) => {
 export const getTotalByinitiatingCountry = ({ data }) => {
   const filteredData = data
     .filter(item => item[CLIENT_COUNTRY] && item[SUM_CLIENT_COUNTRY])
-    .map(item => [item[CLIENT_COUNTRY], item[SUM_CLIENT_COUNTRY]]);
-
-  return filteredData;
+    .map(item => ({
+      name: item[CLIENT_COUNTRY],
+      value: item[SUM_CLIENT_COUNTRY],
+      tooltip: {
+        show: true,
+      },
+    }));
+  console.log('filteredData', filteredData);
+  return uniqBy(filteredData, 'name');
 };
 
 export const getTotalByReceivingCountry = ({ data }) => {
