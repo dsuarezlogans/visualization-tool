@@ -1,0 +1,44 @@
+.map-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.map-control-item {
+    flex: 1 50%;
+}
+
+.reload-btn {
+    height: 30px;
+    width: 100px;
+    background-color: gray;
+    border: 1px solid rgba(1, 54, 106, 1);
+    border-radius: 5px;
+    color: rgba(1, 54, 106, 1);
+}
+
+.title {
+    text-align: center;
+    align-content: center;
+}
+
+.select-container span {
+    width: 33%;
+}
+
+.select-reference-container {
+    width: 66%;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0.5em;
+}
+
+.reference-error {
+    color: red;
+    font-size: 10px;
+}

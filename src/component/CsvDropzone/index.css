@@ -1,0 +1,8 @@
+.csv-dropzone{
+    border: 3px dashed rgba(1, 54, 106, 1);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 1em;
+    flex: 0 1 50%;
+    margin: 0.5em;
+}
