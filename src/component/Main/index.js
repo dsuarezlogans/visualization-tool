@@ -4,36 +4,62 @@ import Papa from 'papaparse';
 
 import MapControl from '../MapControl';
 import Worldmap from '../Worldmap';
-import useDataProcessor from '../DataReducer';
+import useDataProcessor, { chartDataType } from '../DataReducer';
 
-// TODO: handle error when a csv is not the right csv o.O
+const { TOTAL_LEVEL, INITIATING_ROL } = chartDataType;
+
+const INDEX_OF_CLIENT_COLUMN = 44;
+const initialInputsValue = {
+  level: TOTAL_LEVEL,
+  rol: INITIATING_ROL,
+  reference: '',
+};
+
+const isInvalidFile = meta => !meta || meta.type !== 'text/csv';
 
 function Main() {
-  const { chartData, setCsvData, setWorldMapData, setCountries, refCountries } = useDataProcessor();
+  const { chartData, setWorldMapData, refCountries } = useDataProcessor();
   const [fileMeta, setFileMeta] = useState(null);
+  const [inputValues, setInputValues] = useState(initialInputsValue);
+
   const handleFile = ([fileInput]) => {
+    if (isInvalidFile(fileInput)) {
+      return;
+    }
     setFileMeta(fileInput);
     Papa.parse(fileInput, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
+      beforeFirstChunk: results =>
+        results
+          .split(';')
+          .slice(INDEX_OF_CLIENT_COLUMN)
+          .join(';'),
       complete: results => {
-        setCsvData(results);
-        setCountries(results);
+        setWorldMapData(inputValues, results);
       },
     });
   };
 
-  const onReloadSubmit = inputsValue => e => {
-    e.preventDefault();
+  const onRadioChange = e => {
+    const inputName = e.target ? e.target.name : 'reference';
+    const inputValue = e.target ? e.target.value : e.value;
+    const newState = {
+      ...inputValues,
+      [inputName]: inputValue,
+    };
+
+    setInputValues(newState);
+
     if (
-      !fileMeta ||
-      fileMeta.type !== 'text/csv' ||
-      (!inputsValue.reference && inputsValue.level === 'connections')
+      isInvalidFile(fileMeta, newState) ||
+      (!newState.reference && newState.level === 'connections')
     ) {
       return;
     }
-    setWorldMapData(inputsValue);
+
+    setWorldMapData(newState);
   };
 
   return (
@@ -41,7 +67,8 @@ function Main() {
       <div className='main-item'>
         <MapControl
           handleFile={handleFile}
-          onReloadSubmit={onReloadSubmit}
+          handleRadioChange={onRadioChange}
+          inputValues={inputValues}
           countries={refCountries}
         />
       </div>

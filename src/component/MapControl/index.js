@@ -1,5 +1,5 @@
 import './index.css';
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
@@ -9,41 +9,19 @@ import CsvDropzone from '../CsvDropzone';
 
 const { TOTAL_LEVEL, CONNECTIONS_LEVEL, INITIATING_ROL, RECEIVING_ROL } = chartDataType;
 
-const initialInputsValue = {
-  level: TOTAL_LEVEL,
-  rol: INITIATING_ROL,
-  reference: '',
-};
-
-function MapControl({ handleFile, onReloadSubmit, countries }) {
-  const [inputValues, setInputValue] = useState(initialInputsValue);
-  const handleInputChange = e => {
-    if (e.target) {
-      setInputValue({
-        ...inputValues,
-        [e.target.name]: e.target.value,
-      });
-    } else {
-      setInputValue({
-        ...inputValues,
-        reference: e.value,
-      });
-    }
-  };
-
+function MapControl({ inputValues, handleFile, countries, handleRadioChange }) {
   return (
     <div className='map-control'>
       <div className='map-control-item title'>
         <h3>Header Text</h3>
-        <input type='submit' form='mapControlForm' className='reload-btn' value='Reload data' />
       </div>
-      <form onSubmit={onReloadSubmit(inputValues)} id='mapControlForm' className='map-control-item'>
+      <form id='mapControlForm' className='map-control-item'>
         <RadioGroup
           name='level'
           label='Aggregation level'
           valueA={TOTAL_LEVEL}
           valueB={CONNECTIONS_LEVEL}
-          handleChange={handleInputChange}
+          handleChange={handleRadioChange}
           selected={inputValues.level}
         />
         <RadioGroup
@@ -51,7 +29,7 @@ function MapControl({ handleFile, onReloadSubmit, countries }) {
           label='Country role'
           valueA={INITIATING_ROL}
           valueB={RECEIVING_ROL}
-          handleChange={handleInputChange}
+          handleChange={handleRadioChange}
           selected={inputValues.rol}
         />
         <div className='select-container'>
@@ -63,7 +41,7 @@ function MapControl({ handleFile, onReloadSubmit, countries }) {
               name='reference'
               isDisabled={inputValues.level !== CONNECTIONS_LEVEL}
               options={countries}
-              onChange={handleInputChange}
+              onChange={handleRadioChange}
             />
             {inputValues.level === CONNECTIONS_LEVEL && !inputValues.reference && (
               <span className='reference-error'>Please select a country for reference!</span>
@@ -81,7 +59,8 @@ MapControl.defaultProps = {
 };
 MapControl.propTypes = {
   handleFile: PropTypes.func.isRequired,
-  onReloadSubmit: PropTypes.func.isRequired,
+  handleRadioChange: PropTypes.func.isRequired,
+  inputValues: PropTypes.object.isRequired,
   countries: PropTypes.any,
 };
 

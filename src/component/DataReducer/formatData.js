@@ -54,7 +54,6 @@ const getFilteredDataForConnections = (data, key, reference, country) =>
 
 export const getTotalByinitiatingCountry = ({ data }) => {
   const filteredData = getFilteredDataForTotal(data, CLIENT_COUNTRY, SUM_CLIENT_COUNTRY);
-
   return { data: uniqBy(filteredData, 'name'), ...getMinMaxValues(filteredData) };
 };
 

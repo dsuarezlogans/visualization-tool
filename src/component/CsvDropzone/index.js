@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 
 function CsvDropzone({ handleFile }) {
   const onDrop = useCallback(handleFile, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
+    onDrop,
+    accept: 'text/csv',
+  });
   return (
     <div className='csv-dropzone' {...getRootProps()}>
       <input {...getInputProps()} />
@@ -14,6 +16,9 @@ function CsvDropzone({ handleFile }) {
         <p>Drop the files here ...</p>
       ) : (
         <p>Drag & drop some files here, or click to select files</p>
+      )}
+      {acceptedFiles[0] && (
+        <i style={{ color: 'green' }}>{acceptedFiles[0].name} has been loaded!</i>
       )}
     </div>
   );

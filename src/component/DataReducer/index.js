@@ -42,17 +42,19 @@ function useDataProcessor() {
   const [chartData, setChartData] = useState(initialState);
   const [refCountries, setRefCountries] = useState([]);
 
-  const setWorldMapData = inputsValue => {
-    const data = dataReducer(csvData, inputsValue);
-    setChartData(data);
-  };
-
   const setCountries = (data, inputsValue = { countries: chartDataType.INITIATING_ROL }) => {
     const countries = dataReducer(data, inputsValue);
     setRefCountries(countries);
   };
 
-  return { setCsvData, setCountries, chartData, setWorldMapData, refCountries };
+  const setWorldMapData = (inputsValue, data = csvData) => {
+    setCsvData(data);
+    setCountries(data);
+    const initChartData = dataReducer(data, inputsValue);
+    setChartData(initChartData);
+  };
+
+  return { chartData, setWorldMapData, refCountries };
 }
 
 export default useDataProcessor;
